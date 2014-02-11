@@ -9,7 +9,9 @@ GIT
 PATH
   remote: /Users/william/Papercloud/favourite
   specs:
-    favourite (0.0.1)
+    favourite_object (0.0.1)
+      active_model_serializers
+      kaminari
       rails (~> 4.0.2)
 
 GEM
@@ -63,6 +65,9 @@ GEM
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    kaminari (0.15.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -135,7 +140,7 @@ DEPENDENCIES
   awesome_print
   capybara
   factory_girl_rails
-  favourite!
+  favourite_object!
   jquery-rails
   rails (= 4.0.2)
   rspec-rails

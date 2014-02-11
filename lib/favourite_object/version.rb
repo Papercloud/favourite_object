@@ -1,3 +1,3 @@
-module Favourite
+module FavouriteObject
   VERSION = "0.0.1"
 end

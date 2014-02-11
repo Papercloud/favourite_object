@@ -1,6 +1,8 @@
 generate :model, 'user email:string'
+generate :model, 'arbitrary_object content:string'
 
-# generate "favourite:install"
+
+generate "favourite_object:install"
 
 # Finalise
 rake "db:migrate"
