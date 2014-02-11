@@ -13,8 +13,11 @@ module FavouriteObject
   		end
 
   		it "toggles the status of a favourite" do
+        favourite.is_favourited = false
+        favourite.save
+        
   			favourite.toggle
-  			favourite.is_favourited.should eq false
+  			favourite.is_favourited.should eq true
   		end
   	end
   end

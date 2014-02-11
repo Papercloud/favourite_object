@@ -5,7 +5,7 @@ class CreateFavouriteObjectFavourites < ActiveRecord::Migration
       t.string :target_type
       t.integer :owner_id
       t.string :owner_type
-      t.string :is_favourited, default: true
+      t.boolean :is_favourited, default: false
 
       t.timestamps
     end
