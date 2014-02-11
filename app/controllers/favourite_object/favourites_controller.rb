@@ -10,7 +10,7 @@ class FavouriteObject::FavouritesController < ApplicationController
 
 		respond_to do |format|
 		  format.html
-		  format.json {render :json => @favourites}
+		  format.json {render :json => @favourites, each_serializer: FavouriteObject::FavouriteSerializer}
 		end
 	end
 
@@ -26,6 +26,7 @@ class FavouriteObject::FavouritesController < ApplicationController
 
 
 	private 
+
 	def authenticate!
 	  method(FavouriteObject.authentication_method).call
 	  @user = method(FavouriteObject.current_user_method).call

@@ -1,5 +1,7 @@
 require "favourite_object/engine"
 require "kaminari"
+require "active_model_serializers"
+
 
 module FavouriteObject
 

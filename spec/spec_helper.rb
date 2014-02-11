@@ -27,13 +27,12 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'factory_girl_rails'
 require "awesome_print"
+require 'json_spec'
 
 RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   config.use_transactional_fixtures = true
+  config.include JsonSpec::Helpers
 
-  def json
-    JSON.parse(response.body).with_indifferent_access
-  end
 
 end

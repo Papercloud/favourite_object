@@ -11,7 +11,7 @@ describe FavouriteObject::FavouritesController do
 	  FavouriteObject::FavouritesController.any_instance.stub(:authenticate_user!).and_return(true)
 	end
 
-  	describe "list" do
+  	describe "listing favourites" do
   		let(:favourite) { FavouriteObject::Favourite.create(owner: user, target: arbitrary_object) }
 
   		before :each do
@@ -20,6 +20,12 @@ describe FavouriteObject::FavouritesController do
 
   		it "displays favourites as json" do
   			get :index, format: :json
+  			response.body.should have_json_path "favourites/0/id"
+  		end
+
+  		xit "displays favourites web template" do
+  			get :index
+  			response.body.should have_content("Favourites List")
   		end
 	end
 
