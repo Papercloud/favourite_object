@@ -1,0 +1,6 @@
+<div class="favourite_object_icon">
+	<div class="icon <% FavouriteObject::Favourite.is_favourited?(@user, target_id, target_type) ? "active" : ""%>" 
+	-data-target-type="<% target_type %>" -data-target-id="<% target_id %>"></div>
+</div>
+
+

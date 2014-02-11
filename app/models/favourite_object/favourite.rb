@@ -34,5 +34,12 @@ module FavouriteObject
     	self.save
     end
 
+    def self.is_favourited?(owner, target_id, target_type)
+        return false if FavouriteObject::Favourite.where(owner: owner, 
+            target_id: target_id, target_type: target_type).empty?
+
+        return true
+    end    
+
   end
 end

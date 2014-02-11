@@ -16,6 +16,12 @@ class FavouriteObject::InstallGenerator < Rails::Generators::Base
     template "initializer.rb", "config/initializers/favourite_object.rb"
   end
 
+  def append_stylesheet
+    insert_into_file "app/assets/stylesheets/application.css", :before => "*/" do
+      "\n *= require 'favourite_object/stylesheet'\n\n"
+    end
+  end
+
   # This is defined in ActiveRecord::Generators::Base, but that inherits from NamedBase, so it expects a name argument
   # which we don't want here. So we redefine it here. Yuck.
   def self.next_migration_number(dirname)
@@ -25,6 +31,8 @@ class FavouriteObject::InstallGenerator < Rails::Generators::Base
       "%.3d" % (current_migration_number(dirname) + 1)
     end
   end
+
+
 
   protected
 

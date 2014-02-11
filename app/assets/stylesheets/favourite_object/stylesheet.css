@@ -1,0 +1,11 @@
+.favourite_object_icon{
+	display: inline;
+}
+
+.favourite_object_icon .icon{
+	/*default state*/
+}
+.favourite_object_icon .icon.active{
+	/*favourited state*/
+}
+

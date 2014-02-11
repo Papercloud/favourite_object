@@ -19,11 +19,8 @@ class FavouriteObject::FavouritesController < ApplicationController
 		favourite = FavouriteObject::Favourite.where(owner: @user, target_id: params[:target_id], 
 			target_type: params[:target_type]).first_or_create
 		favourite.toggle
-		render :text => "favourite an object"
+		render :text => "update"
 	end
-
-
-
 
 	private 
 
