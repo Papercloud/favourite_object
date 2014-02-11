@@ -35,11 +35,17 @@ module FavouriteObject
     end
 
     def self.is_favourited?(owner, target_id, target_type)
-        return false if FavouriteObject::Favourite.where(owner: owner, 
-            target_id: target_id, target_type: target_type).empty?
+        favourite = FavouriteObject::Favourite.where(owner: owner, target_id: target_id,
+                        target_type: target_type).first
+
+        return false if favourite.blank? || favourite.is_favourited == false
 
         return true
     end    
+
+    def self.with_type(type)
+        where('target_type = ?', type)
+    end
 
   end
 end

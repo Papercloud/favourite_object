@@ -34,5 +34,8 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.include JsonSpec::Helpers
 
+  def json(body)
+  	JSON.parse(body)
+  end
 
 end

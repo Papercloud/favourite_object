@@ -1,11 +1,11 @@
-.favourite_object_icon{
+.favourite_object_container{
 	display: inline;
 }
 
-.favourite_object_icon .icon{
+.favourite_object_container .icon{
 	/*default state*/
 }
-.favourite_object_icon .icon.active{
+.favourite_object_container .icon.active{
 	/*favourited state*/
+	color: red;
 }
-

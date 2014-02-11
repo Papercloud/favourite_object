@@ -13,9 +13,11 @@ describe FavouriteObject::FavouritesController do
 
   	describe "listing favourites" do
   		let(:favourite) { FavouriteObject::Favourite.create(owner: user, target: arbitrary_object) }
+  		let(:other_favourite) { FavouriteObject::Favourite.create(owner: user, target_id: 99, target_type: "Sale") }
 
   		before :each do
   			favourite.save
+  			other_favourite.save
   		end
 
   		it "displays favourites as json" do
@@ -23,9 +25,14 @@ describe FavouriteObject::FavouritesController do
   			response.body.should have_json_path "favourites/0/id"
   		end
 
-  		xit "displays favourites web template" do
+  		it "displays favourites filtered by type" do
+  			get :index, format: :json, type: "Sale"
+  			response.body.should have_json_path "favourites/0/id"
+  			expect(json(response.body)["favourites"].length).to eq 1
+  		end
+
+  		it "displays favourites web template" do
   			get :index
-  			response.body.should have_content("Favourites List")
   		end
 	end
 

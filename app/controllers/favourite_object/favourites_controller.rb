@@ -7,6 +7,8 @@ class FavouriteObject::FavouritesController < ApplicationController
 		                                              .order("created_at DESC")
 		                                              .limit(30)
 		                                              .page(params[:page])
+		                                              
+		@favourites = @favourites.with_type(params[:type]) if params[:type]                                              
 
 		respond_to do |format|
 		  format.html
@@ -19,7 +21,7 @@ class FavouriteObject::FavouritesController < ApplicationController
 		favourite = FavouriteObject::Favourite.where(owner: @user, target_id: params[:target_id], 
 			target_type: params[:target_type]).first_or_create
 		favourite.toggle
-		render :text => "update"
+		render :text => favourite.is_favourited
 	end
 
 	private 
