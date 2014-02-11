@@ -1,0 +1,8 @@
+source "https://rubygems.org"
+
+gemspec :path => "../"
+
+ENV['RAILS_VERSION'] = "4.0.2"
+gem "rails", ENV['RAILS_VERSION']
+gem 'active_model_serializers-matchers', github: "adambarber/active_model_serializers-matchers"
+gem 'jquery-rails'
