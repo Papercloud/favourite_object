@@ -1,3 +1,16 @@
-= Favourite
+= Favourite Object
+A dropin utility that adds favourites functionality to any rails application. But simpling include a partial you can add a favourite button to any object.
 
-This project rocks and uses MIT-LICENSE.
+
+Install: 
+```
+gem 'favourite_object'
+rails g favourite_object:install
+rake db:migrate
+```
+
+Favourite button(pass the object to be favourited and the user object)
+```
+<%= render :partial => 'favourite_object/favourites/favourite_icon', 
+	:locals => {:object => object, :owner => @user}%>
+```

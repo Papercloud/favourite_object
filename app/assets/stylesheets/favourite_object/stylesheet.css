@@ -8,6 +8,7 @@
 	height: 21px;
 	width: 22px;
 	display: block;
+	cursor: pointer;
 }
 .favourite_object_container .icon.active{
 	/*favourited state*/
