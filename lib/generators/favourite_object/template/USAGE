@@ -1,0 +1,6 @@
+Description:
+    Generates the template files for the favourite message. 
+
+Example:
+    rails generate favourite_object:template Post Page Category
+

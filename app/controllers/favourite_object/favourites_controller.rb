@@ -14,7 +14,7 @@ class FavouriteObject::FavouritesController < ApplicationController
 
 		respond_to do |format|
 		  format.html
-		  format.json {render :json => @favourites, each_serializer: FavouriteObject::FavouriteSerializer}
+		  format.json {render :json => @favourites}
 		end
 	end
 

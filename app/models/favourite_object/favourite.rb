@@ -5,6 +5,16 @@ module FavouriteObject
     belongs_to :target, polymorphic: true
     belongs_to :owner, polymorphic: true
 
+    # Params for creating the notification message.
+    serialize :params, Hash
+
+    mattr_accessor :views
+    @@views = {
+      message: {
+        template_path: Proc.new {|n| "favourite_object/#{n.target_type.underscore}/layouts/message_template" }
+      }
+    }
+
     if ActiveRecord::VERSION::MAJOR < 4
       attr_accessible :target, :owner
     end
@@ -12,6 +22,13 @@ module FavouriteObject
     def self.for_owner(owner)
     	where(owner_id: owner.id)
     	.where(owner_type: owner.class.base_class)
+    end
+
+    def message
+      ActionView::Base.new(
+             Rails.configuration.paths["app/views"]).render(
+             :template => self.class.views[:message][:template_path].call(self), :formats => [:html], 
+             :locals => { }, :layout => false)
     end
 
     #toggles the is_favourited status
