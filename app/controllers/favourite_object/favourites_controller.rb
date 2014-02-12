@@ -3,12 +3,14 @@ class FavouriteObject::FavouritesController < ApplicationController
 	before_filter :authenticate!
 
 	def index
+		#only return is_favourited = true                                              
 		@favourites = FavouriteObject::Favourite.for_owner(@user)
+													  .where(is_favourited: true)
 		                                              .order("created_at DESC")
 		                                              .limit(30)
 		                                              .page(params[:page])
 		                                              
-		@favourites = @favourites.with_type(params[:type]) if params[:type]                                              
+		@favourites = @favourites.with_type(params[:type]) if params[:type]
 
 		respond_to do |format|
 		  format.html

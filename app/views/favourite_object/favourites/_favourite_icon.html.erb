@@ -1,6 +1,7 @@
 <div class="favourite_object_container">
-	<div class="icon <%= 'active' if FavouriteObject::Favourite.is_favourited?(owner, object.id, object.class.name)%>" 
-	-data-target-type="<%= object.class %>" -data-target-id="<%= object.id %>">X</div>
+	<span id="favourite_text"></span>
+	<span class="icon <%= 'active' if FavouriteObject::Favourite.is_favourited?(owner, object.id, object.class.name)%>" 
+	-data-target-type="<%= object.class %>" -data-target-id="<%= object.id %>"></span>
 </div>
 
 

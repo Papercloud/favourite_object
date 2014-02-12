@@ -22,6 +22,12 @@ class FavouriteObject::InstallGenerator < Rails::Generators::Base
     end
   end
 
+  def append_javascript
+    insert_into_file "app/assets/javascripts/application.js", :after => %r{//= require +['"]?jquery['"]?} do
+      "\n//= require 'favourite_object/favourites'\n\n"
+    end
+  end
+
   # This is defined in ActiveRecord::Generators::Base, but that inherits from NamedBase, so it expects a name argument
   # which we don't want here. So we redefine it here. Yuck.
   def self.next_migration_number(dirname)

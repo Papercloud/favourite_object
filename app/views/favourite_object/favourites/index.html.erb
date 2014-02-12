@@ -1,5 +1,5 @@
 Favourites List
 
 <% @favourites.each do |favourite| %>
-	<% favourite %>
+	<%= favourite.target_type %> - <%= favourite.target_id%>
 <% end %>

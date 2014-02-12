@@ -1,11 +1,18 @@
 .favourite_object_container{
-	display: inline;
+	display: inline-block;
 }
 
 .favourite_object_container .icon{
 	/*default state*/
+	background: url('favourite_default.png');
+	height: 21px;
+	width: 22px;
+	display: block;
 }
 .favourite_object_container .icon.active{
 	/*favourited state*/
-	color: red;
+	background: url('favourite_active.png');
+	height: 21px;
+	width: 22px;
+	display: block;
 }
