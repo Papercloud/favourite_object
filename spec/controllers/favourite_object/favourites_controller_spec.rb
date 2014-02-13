@@ -9,6 +9,8 @@ describe FavouriteObject::FavouritesController do
 	before :each do
 	  FavouriteObject::FavouritesController.any_instance.stub(:current_user).and_return(user)
 	  FavouriteObject::FavouritesController.any_instance.stub(:authenticate_user!).and_return(true)
+	  FavouriteObject::Favourite.any_instance.stub(:message).and_return("Mr. Blobby")
+
 	end
 
   	describe "listing favourites" do
@@ -16,7 +18,9 @@ describe FavouriteObject::FavouritesController do
   		let(:other_favourite) { FavouriteObject::Favourite.create(owner: user, target_id: 99, target_type: "Sale") }
 
   		before :each do
+  			favourite.is_favourited = true
   			favourite.save
+  			other_favourite.is_favourited = true
   			other_favourite.save
   		end
 
@@ -37,11 +41,11 @@ describe FavouriteObject::FavouritesController do
 	end
 
 	describe "favouriting an object" do
-		it "creates favourite object and toggles is_favourited to true" do
+		it "creates favourite object with default is_favourited to false" do
 			put :update, target_type: arbitrary_object.class, target_id: arbitrary_object.id
 
 			favourite = FavouriteObject::Favourite.last
-			favourite.is_favourited.should eq true
+			favourite.is_favourited.should eq false
 		end
 
 		it "if already exists exists sets is_favourited to false" do
@@ -49,12 +53,21 @@ describe FavouriteObject::FavouritesController do
 			favourite_object.is_favourited = true
 			favourite_object.save
 
-			put :update, target_type: arbitrary_object.class.name, target_id: arbitrary_object.id
+			put :update, target_type: arbitrary_object.class.name, target_id: arbitrary_object.id, favourite: false
 
 			favourite = FavouriteObject::Favourite.last
 			favourite.is_favourited.should eq false
 		end
 	end
 
+	describe "favourite a third_party object" do
+		it "assigns third_party values" do
+			put :update, target_type: "RandomClass", target_id: "object_1", third_party: 'true'
 
+			favourite = FavouriteObject::Favourite.last
+			favourite.third_party_flag.should eq true
+			favourite.third_party_id.should eq "object_1"
+			favourite.third_party_type.should eq "RandomClass"
+		end
+	end
 end

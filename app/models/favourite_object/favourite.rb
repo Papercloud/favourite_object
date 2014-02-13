@@ -11,7 +11,7 @@ module FavouriteObject
     mattr_accessor :views
     @@views = {
       message: {
-        template_path: Proc.new {|n| "favourite_object/#{n.target_type.underscore}/layouts/message_template" }
+        template_path: Proc.new {|n| "favourite_object/#{n.target_type.underscore}/message" }
       }
     }
 
@@ -28,7 +28,7 @@ module FavouriteObject
       ActionView::Base.new(
              Rails.configuration.paths["app/views"]).render(
              :template => self.class.views[:message][:template_path].call(self), :formats => [:html], 
-             :locals => { }, :layout => false)
+             :locals => {object: self.target }, :layout => false)
     end
 
     #toggles the is_favourited status

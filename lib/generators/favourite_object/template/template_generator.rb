@@ -5,11 +5,11 @@ module FavouriteObject
 
     def generate_templates
       # generate template files for name
-      template "message_template.html.erb.erb", "app/views/favourite_object/#{name.underscore}/layouts/message_template.html.erb"
+      template "message.html.erb.erb", "app/views/favourite_object/#{name.underscore}/message.html.erb"
 
       addition_classes.each do |class_name|
         #iterates through each additional class and generates template files
-        template "message_template.html.erb.erb", "app/views/favourite_object/#{class_name.underscore}/layouts/message_template.html.erb"
+        template "message.html.erb.erb", "app/views/favourite_object/#{class_name.underscore}/message.html.erb"
       end 
     end
   end
