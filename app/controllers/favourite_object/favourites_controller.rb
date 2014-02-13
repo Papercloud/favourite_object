@@ -27,7 +27,7 @@ class FavouriteObject::FavouritesController < ApplicationController
 			@favourite = FavouriteObject::Favourite.where(owner: @user, target_id: params[:target_id], 
 				target_type: params[:target_type]).first_or_initialize
 		end	
-		@favourite.save
+
 		render :json => @favourite, root: 'favourite'
 	end
 
@@ -40,7 +40,7 @@ class FavouriteObject::FavouritesController < ApplicationController
 			favourite = FavouriteObject::Favourite.where(owner: @user, target_id: params[:target_id], 
 				target_type: params[:target_type]).first_or_initialize
 		end	
-		
+
 		favourite.params = params[:data] if params[:data]
 		favourite.params = params[:description] if params[:description]
 
