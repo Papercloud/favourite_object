@@ -18,8 +18,8 @@
 
 .favourite_object_container .icon:before
 { 
-	position: absolute;
-	left: -57px;
+	position: relative;
+	left: -74px;
 	top: 3px;
 	content:"Favourite";
 }
