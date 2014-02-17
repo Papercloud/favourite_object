@@ -15,3 +15,15 @@
 	background: url('favourite_active.png');
 	display: block;
 }
+
+.favourite_object_container .icon:before
+{ 
+	position: absolute;
+	left: -57px;
+	top: 3px;
+	content:"Favourite";
+}
+.favourite_object_container .icon.active:before
+{ 
+	content:"Favourited";
+}
