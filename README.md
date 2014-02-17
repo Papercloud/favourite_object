@@ -11,7 +11,7 @@ rake db:migrate
 ```
 
 For every object you want to be favouritable
-- Generates a favourite_object/#{name.underscore}/message.html.erb file which is used to display the description of an object
+- Generates a favourite_object/ObjectName/message.html.erb file which is used to display the description of an object
 ```
 rails g favourite_object:template ObjectName
 ```
@@ -20,5 +20,5 @@ rails g favourite_object:template ObjectName
 Favourite button(pass the object to be favourited and the user object)
 ```
 <%= render :partial => 'favourite_object/favourites/favourite_icon', 
-	:locals => {:object => object, :owner => @user}%>
+	:locals => {:object => object}%>
 ```
