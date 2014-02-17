@@ -5,15 +5,13 @@
 .favourite_object_container .icon{
 	/*default state*/
 	background: url('favourite_default.png');
-	height: 21px;
-	width: 22px;
+	height: 24px;
+	width: 24px;
 	display: block;
 	cursor: pointer;
 }
 .favourite_object_container .icon.active{
 	/*favourited state*/
 	background: url('favourite_active.png');
-	height: 21px;
-	width: 22px;
 	display: block;
 }

@@ -1,11 +1,10 @@
 <%
-	status = FavouriteObject::Favourite.is_favourited?(owner, object.id, object.class.name)
+	user = method(FavouriteObject.current_user_method).call
+	status = FavouriteObject::Favourite.is_favourited?(user, object.id, object.class.name) unless user.nil?
 %>
 
 <div class="favourite_object_container">
 	<span id="favourite_text"></span>
 	<span class="icon <%= 'active' if status%>" 
-	-data-target-type="<%= object.class %>" -data-target-id="<%= object.id %>"></span>
+	-data-target-type="<%= object.class %>" -data-target-id="<%= object.id %>" -data-user-status="<%= user ? 'true' : 'false' %>"></span>
 </div>
-
-

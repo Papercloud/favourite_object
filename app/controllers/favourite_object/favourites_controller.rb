@@ -73,9 +73,7 @@ class FavouriteObject::FavouritesController < ApplicationController
 	private 
 
 	def authenticate!
-		#fix before commiting
-	  # method(FavouriteObject.authentication_method).call
-	  # @user = method(FavouriteObject.current_user_method).call
-	  @user = User.first
+	  method(FavouriteObject.authentication_method).call
+	  @user = method(FavouriteObject.current_user_method).call
 	end
 end

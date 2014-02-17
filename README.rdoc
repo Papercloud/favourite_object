@@ -9,6 +9,12 @@ rails g favourite_object:install
 rake db:migrate
 ```
 
+For every object you want to be favouritable
+```
+rails g favourite_object:template ObjectName
+```
+
+
 Favourite button(pass the object to be favourited and the user object)
 ```
 <%= render :partial => 'favourite_object/favourites/favourite_icon', 
