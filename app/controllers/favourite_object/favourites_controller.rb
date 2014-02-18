@@ -20,7 +20,7 @@ class FavouriteObject::FavouritesController < ApplicationController
 	end
 
 	def query
-		if params[:third_party] == 'true'	
+		if params[:third_party_flag] == 'true' || params[:third_party_flag] == '1'	
 			@favourite = FavouriteObject::Favourite.where(owner: @user, third_party_id: params[:target_id], 
 				third_party_type: params[:target_type], third_party_flag: true).first_or_initialize
 		else
@@ -28,12 +28,17 @@ class FavouriteObject::FavouritesController < ApplicationController
 				target_type: params[:target_type]).first_or_initialize
 		end	
 
+		if @favourite.is_favourited == false
+			@favourite = {} 
+			@favourite[:favourite] = nil 
+		end
+
 		render :json => @favourite, root: 'favourite'
 	end
 
 	def update
 		#endpoint for favouriting an object
-		if params[:third_party] == 'true'	
+		if params[:third_party_flag] == 'true' || params[:third_party_flag] == '1'	
 			favourite = FavouriteObject::Favourite.where(owner: @user, third_party_id: params[:target_id], 
 				third_party_type: params[:target_type], third_party_flag: true).first_or_initialize
 		else
@@ -41,10 +46,11 @@ class FavouriteObject::FavouritesController < ApplicationController
 				target_type: params[:target_type]).first_or_initialize
 		end	
 
+		# favourite.params = params[:data] if params[:data]
 		favourite.params = params[:data] if params[:data]
-		favourite.params = params[:description] if params[:description]
+		favourite.params[:description] = params[:description] if params[:description]
 
-		if params[:favourite] == 'true'
+		if params[:favourite] == 'true' || params[:favourite] == '1'
 			favourite.is_favourited = true
 		else
 			favourite.is_favourited = false
@@ -58,7 +64,7 @@ class FavouriteObject::FavouritesController < ApplicationController
 	def toggle
 		# toggle for web interface 
 		# DOES NOT ACCOUNT FOR THIRDPARTY FAVOURITES YET
-		if params[:third_party] == 'true'	
+		if params[:third_party_flag] == 'true' || params[:third_party_flag] == '1'	
 			favourite = FavouriteObject::Favourite.where(owner: @user, third_party_id: params[:target_id], 
 				third_party_type: params[:target_type], third_party_flag: true).first_or_initialize
 		else
@@ -73,6 +79,7 @@ class FavouriteObject::FavouritesController < ApplicationController
 	private 
 
 	def authenticate!
+		#fix before commiting
 	  method(FavouriteObject.authentication_method).call
 	  @user = method(FavouriteObject.current_user_method).call
 	end
