@@ -52,11 +52,14 @@ class FavouriteObject::FavouritesController < ApplicationController
 
 		if params[:favourite] == 'true' || params[:favourite] == '1'
 			favourite.is_favourited = true
+			favourite.save
 		else
 			favourite.is_favourited = false
+			favourite.destroy
+			favourite = {} 
+			favourite[:favourite] = nil 
 		end
 
-		favourite.save
 
 		render :json => favourite, root: 'favourite'
 	end
