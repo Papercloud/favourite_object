@@ -40,29 +40,27 @@ describe FavouriteObject::FavouritesController do
   		end
 	end
 
-	describe "favouriting an object" do
-		it "creates favourite object with default is_favourited to false" do
+	describe "unfavouriting an object" do
+		it "returns null if favourited is equal to false" do
 			put :update, target_type: arbitrary_object.class, target_id: arbitrary_object.id
-
-			favourite = FavouriteObject::Favourite.last
-			favourite.is_favourited.should eq false
+			expect(json(response.body)["favourite"]).to eq nil
 		end
 
-		it "if already exists exists sets is_favourited to false" do
+		it "if already exists exists and is_favourited is set to false the object gets deleted" do
 			favourite_object = FavouriteObject::Favourite.create(owner: user, target: arbitrary_object)
 			favourite_object.is_favourited = true
 			favourite_object.save
 
 			put :update, target_type: arbitrary_object.class.name, target_id: arbitrary_object.id, favourite: false
 
-			favourite = FavouriteObject::Favourite.last
-			favourite.is_favourited.should eq false
+			expect(json(response.body)["favourite"]).to eq nil
+
 		end
 	end
 
 	describe "favourite a third_party object" do
 		it "assigns third_party values" do
-			put :update, target_type: "RandomClass", target_id: "object_1", third_party: 'true'
+			put :update, target_type: "RandomClass", target_id: "object_1", third_party_flag: 'true', favourite: 'true'
 
 			favourite = FavouriteObject::Favourite.last
 			favourite.third_party_flag.should eq true
