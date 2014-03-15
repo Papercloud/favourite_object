@@ -2,6 +2,12 @@ class FavouriteObject::FavouriteSerializer < ActiveModel::Serializer
   root :favourites
 
   attributes :id, :target_id, :target_type, :is_favourited, :description, :third_party_flag, :data
+  embed :ids, :include => true
+  has_one :target, polymorphic: true
+
+  def include_target?
+    (object.third_party_flag != true)
+  end
 
   def description
   	if self.object.third_party_flag == true
