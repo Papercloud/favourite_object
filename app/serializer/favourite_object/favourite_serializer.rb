@@ -6,7 +6,7 @@ class FavouriteObject::FavouriteSerializer < ActiveModel::Serializer
   has_one :target, polymorphic: true
 
   def include_target?
-    (object.third_party_flag != true)
+    (self.object.third_party_flag != true)
   end
 
   def description

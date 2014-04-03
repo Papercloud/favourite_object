@@ -51,9 +51,14 @@ module FavouriteObject
     	self.save
     end
 
-    def self.is_favourited?(owner, target_id, target_type)
-        favourite = FavouriteObject::Favourite.where(owner: owner, target_id: target_id,
-                        target_type: target_type).first
+    def self.is_favourited?(owner, target_id, target_type, third_party_flag=false)
+        if third_party_flag 
+            favourite = FavouriteObject::Favourite.where(owner: owner, third_party_id: target_id.to_s,
+                            third_party_type: target_type).first
+        else
+            favourite = FavouriteObject::Favourite.where(owner: owner, target_id: target_id,
+                            target_type: target_type).first
+        end
 
         return false if favourite.blank? || favourite.is_favourited == false
 

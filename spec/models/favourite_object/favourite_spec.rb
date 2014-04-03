@@ -27,6 +27,14 @@ module FavouriteObject
         status.should eq true
       end
 
+      it "returns true for a favourited third_party object" do
+        third_party_favourite = FavouriteObject::Favourite.create(owner: user, third_party_type: "Sale", third_party_id: 1, is_favourited: true, third_party_flag: true)
+        third_party_favourite.should be_valid
+
+        status = FavouriteObject::Favourite.is_favourited?(user, 1, "Sale", true)
+        status.should eq true
+      end
+
       it "returns false for an unfavourited object" do
         favourite.is_favourited = false
         favourite.save
