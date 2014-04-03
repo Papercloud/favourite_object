@@ -70,6 +70,7 @@ class FavouriteObject::BaseFavouritesController < ApplicationController
 		if params[:third_party_flag] == 'true' || params[:third_party_flag] == '1'	
 			favourite = FavouriteObject::Favourite.where(owner: @user, third_party_id: params[:target_id], 
 				third_party_type: params[:target_type], third_party_flag: true).first_or_initialize
+			favourite.params = eval(params[:params]) if params[:params]
 		else
 			favourite = FavouriteObject::Favourite.where(owner: @user, target_id: params[:target_id], 
 				target_type: params[:target_type]).first_or_initialize

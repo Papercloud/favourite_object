@@ -4,8 +4,6 @@
 	else
 		third_party_flag = third_party
 	end
-
-
 	user = method(FavouriteObject.current_user_method).call
 	status = FavouriteObject::Favourite.is_favourited?(user, object.id, object.class.name, third_party_flag) unless user.nil?
 %>
@@ -13,5 +11,5 @@
 <div class="favourite_object_container">
 	<span id="favourite_text"></span>
 	<span class="icon <%= 'active' if status%>" 
-	-data-target-type="<%= object.class %>" -data-target-id="<%= object.id %>" -data-third-party="<%= third_party_flag.to_s%>" -data-user-status="<%= user ? 'true' : 'false' %>"></span>
+	-data-target-type="<%= object.class %>" -data-params="<%= params %>" -data-target-id="<%= object.id %>" -data-third-party="<%= third_party_flag.to_s%>" -data-user-status="<%= user ? 'true' : 'false' %>"></span>
 </div>

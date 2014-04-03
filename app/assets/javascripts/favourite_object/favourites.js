@@ -5,13 +5,14 @@ $( document ).ready(function() {
 		target_id = element.attr('-data-target-id');
 		user_status = element.attr('-data-user-status');
 		third_party_flag = element.attr('-data-third-party');
+		params = element.attr('-data-params');
 
 		if(user_status == 'true'){
 			$.ajax({
 			    type: "PUT",
 			    url: '/favourite_object/favourites/'+ target_type +'/' + target_id + '/toggle' ,
 			    data: {"target_type": target_type, 
-			    	"target_id": target_id, "third_party_flag": third_party_flag}
+			    	"target_id": target_id, "third_party_flag": third_party_flag, "params": params}
 			}).done(function(response){
 				if (response['favourite']['is_favourited'] == true){
 					element.addClass( "active" );
