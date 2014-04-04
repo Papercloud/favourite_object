@@ -6,10 +6,20 @@
 	end
 	user = method(FavouriteObject.current_user_method).call
 	status = FavouriteObject::Favourite.is_favourited?(user, object.id, object.class.name, third_party_flag) unless user.nil?
+
+	#defaults
+	@favourited_text = "Favourited" if defined?(favourited_text).nil? 
+	@unfavourited_text = "Favourite" if defined?(unfavourited_text).nil? 
 %>
 
 <div class="favourite_object_container">
-	<span id="favourite_text"></span>
-	<span class="icon <%= 'active' if status%>" 
-	-data-target-type="<%= object.class %>" -data-params="<%= params %>" -data-target-id="<%= object.id %>" -data-third-party="<%= third_party_flag.to_s%>" -data-user-status="<%= user ? 'true' : 'false' %>"></span>
+	<div class="text_container">
+		<span id="favourited_text" class=" <%= 'active' if status%>"><%= @favourited_text || favourited_text %></span>
+		<span id="unfavourited_text" class=" <%= 'active' unless status%>"><%= @unfavourited_text || unfavourited_text%></span>
+	</div>
+	<div class="icon_container">
+		<span class="icon <%= 'active' if status%>" 
+		-data-target-type="<%= object.class %>" -data-params="<%= params %>" -data-target-id="<%= object.id %>" -data-third-party="<%= third_party_flag.to_s%>" -data-user-status="<%= user ? 'true' : 'false' %>"></span>
+	</div>
+
 </div>

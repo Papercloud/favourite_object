@@ -16,8 +16,12 @@ $( document ).ready(function() {
 			}).done(function(response){
 				if (response['favourite']['is_favourited'] == true){
 					element.addClass( "active" );
+					element.parent().parent().find('#favourited_text').addClass('active');
+					element.parent().parent().find('#unfavourited_text').removeClass('active');
 				}else{
 					element.removeClass( "active" );
+					element.parent().parent().find('#unfavourited_text').addClass('active');
+					element.parent().parent().find('#favourited_text').removeClass('active');
 				}
 			}).fail(function(){
 				console.log("failed");

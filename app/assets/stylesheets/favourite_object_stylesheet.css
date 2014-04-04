@@ -10,20 +10,38 @@
 	display: block;
 	cursor: pointer;
 }
+.favourite_object_container .icon_container{
+	display: inline-block;
+}
+.favourite_object_container .text_container{
+	display: inline-block;
+	vertical-align: top;
+	padding-top:3px;
+	margin-right: 3px;
+}
+.favourite_object_container #favourited_text, .favourite_object_container #unfavourited_text{
+	display: none;
+}
+.favourite_object_container .text_container .active{
+	display: inline !important;
+}
 .favourite_object_container .icon.active{
 	/*favourited state*/
 	background: url('favourite_active.png');
 	display: block;
 }
 
+.favourite_object_container .hide{
+	display:none;
+}
 .favourite_object_container .icon:before
 { 
 	position: relative;
 	left: -74px;
 	top: 3px;
-	content:"Favourite";
-}
+/*	content:"Favourite";
+*/}
 .favourite_object_container .icon.active:before
 { 
-	content:"Favourited";
-}
+/*	content:"Favourited";
+*/}
