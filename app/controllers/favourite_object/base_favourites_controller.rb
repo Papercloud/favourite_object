@@ -5,14 +5,24 @@ class FavouriteObject::BaseFavouritesController < ApplicationController
 	skip_before_filter :verify_authenticity_token  
 
 	def index
-		#only return is_favourited = true                                              
+		collection
+
+		respond_to_method
+	end
+
+	def collection
 		@favourites = FavouriteObject::Favourite.for_owner(@user)
 													  .where(is_favourited: true)
 		                                              .order("created_at DESC")
-		                                              .page(params[:page]).per(params[:per_page])
-		                                              
 		@favourites = @favourites.with_type(params[:type]) if params[:type]
+		collection_pagination    
+	end
 
+	def collection_pagination
+		@favourites = @favourites.page(params[:page]).per(params[:per_page])
+	end
+
+	def respond_to_method
 		respond_to do |format|
 		  format.html
 		  format.json {render :json => @favourites, meta: { pagination: { per_page: @favourites.limit_value, total_pages: @favourites.total_pages, total_objects: @favourites.total_count } }}
