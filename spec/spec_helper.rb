@@ -11,6 +11,7 @@ Bundler.setup
 ENV['RAILS_ENV'] = 'test'
 ENV['RAILS_ROOT'] = File.expand_path("../dummy/rails-#{ENV['RAILS_VERSION']}", __FILE__)
 
+ENV['RAILS_VERSION'] = "4.0.2"
 
 
 # Create the test app if it doesn't exists
