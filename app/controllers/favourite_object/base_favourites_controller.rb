@@ -36,7 +36,7 @@ module FavouriteObject
 			@favourite = Favourite.find_with_target(@user, params[:target_id],
 				params[:target_type], params[:third_party_flag])
 
-			respond_with @favourite
+			respond_with @favourite, serializer: LiteFavouriteSerializer
 		end
 
 		def update
@@ -45,7 +45,7 @@ module FavouriteObject
 
 			@favourite.update(permitted_params[:favourite])
 
-			respond_with @favourite
+			respond_with @favourite, serializer: LiteFavouriteSerializer
 		end
 
 		def toggle
