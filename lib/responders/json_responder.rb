@@ -12,9 +12,4 @@ module Responders::JsonResponder
       super
     end
   end
-
-  def json_resource_errors
-    # Hack to get around PCDValidationError expecting a hash of properties to array of errors, and not handling "Prospect.first_name" gracefully.
-    {:errors => resource.errors.full_messages.map { |e| { e.gsub('.', ' ') => [] } }}
-  end
 end
