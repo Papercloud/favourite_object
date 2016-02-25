@@ -1,100 +1,92 @@
-class FavouriteObject::BaseFavouritesController < ApplicationController
+module FavouriteObject
+	class BaseFavouritesController < ApplicationController
+		respond_to :json
+		responders :json
 
-	before_filter :authenticate!
-	#remove before commiting
-	skip_before_filter :verify_authenticity_token  
+		before_filter :authenticate!
 
-	def index
-		collection
+		def index
+			collection
 
-		respond_to_method
-	end
-
-	def collection
-		@favourites = FavouriteObject::Favourite.for_owner(@user)
-													  .where(is_favourited: true)
-		                                              .order("created_at DESC")
-		@favourites = @favourites.with_type(params[:type]) if params[:type]
-		collection_pagination    
-	end
-
-	def collection_pagination
-		@favourites = @favourites.page(params[:page]).per(params[:per_page])
-	end
-
-	def respond_to_method
-		respond_to do |format|
-		  format.html
-		  format.json {render :json => @favourites, meta: { pagination: { per_page: @favourites.limit_value, total_pages: @favourites.total_pages, total_objects: @favourites.total_count } }}
-		end
-	end
-
-	def query
-		if params[:third_party_flag] == 'true' || params[:third_party_flag] == '1'	
-			@favourite = FavouriteObject::Favourite.where(owner: @user, third_party_id: params[:target_id], 
-				third_party_type: params[:target_type], third_party_flag: true).first_or_initialize
-		else
-			@favourite = FavouriteObject::Favourite.where(owner: @user, target_id: params[:target_id], 
-				target_type: params[:target_type]).first_or_initialize
-		end	
-
-		if @favourite.is_favourited == false
-			@favourite = {} 
-			@favourite[:favourite] = nil 
+			respond_to_method(params[:serializer])
 		end
 
-		render :json => @favourite, root: 'favourite'
-	end
+		def collection
+			@favourites = Favourite.for_owner(@user)
+											.where(is_favourited: true).order("created_at DESC")
 
-	def update
-		#endpoint for favouriting an object
-		if params[:third_party_flag] == 'true' || params[:third_party_flag] == '1'	
-			favourite = FavouriteObject::Favourite.where(owner: @user, third_party_id: params[:target_id], 
-				third_party_type: params[:target_type], third_party_flag: true).first_or_initialize
-		else
-			favourite = FavouriteObject::Favourite.where(owner: @user, target_id: params[:target_id], 
-				target_type: params[:target_type]).first_or_initialize
-		end	
+			@favourites = @favourites.where(target_type: params[:target_type]) if params[:target_type]
+			@favourites = @favourites.where(target_id: params[:target_ids]) if params[:target_ids]
 
-		# favourite.params = params[:data] if params[:data]
-		favourite.params = params[:data] if params[:data]
-		favourite.params[:description] = params[:description] if params[:description]
-
-		if params[:favourite] == 'true' || params[:favourite] == '1'
-			favourite.is_favourited = true
-			favourite.save
-		else
-			favourite.is_favourited = false
-			favourite.destroy
-			favourite = {} 
-			favourite[:favourite] = nil 
+			collection_pagination
 		end
 
+		def collection_pagination
+			@favourites = @favourites.page(params[:page]).per(params[:per_page])
+		end
 
-		render :json => favourite, root: 'favourite'
-	end
+		def respond_to_method(serializer)
+			if serializer == 'lite'
+				return respond_with @favourites, each_serializer: LiteFavouriteSerializer
+			end
+			respond_with @favourites
+		end
 
-	def toggle
-		# toggle for web interface 
-		# DOES NOT ACCOUNT FOR THIRDPARTY FAVOURITES YET
-		if params[:third_party_flag] == 'true' || params[:third_party_flag] == '1'	
-			favourite = FavouriteObject::Favourite.where(owner: @user, third_party_id: params[:target_id], 
-				third_party_type: params[:target_type], third_party_flag: true).first_or_initialize
-			favourite.params = eval(params[:params]) if params[:params]
-		else
-			favourite = FavouriteObject::Favourite.where(owner: @user, target_id: params[:target_id], 
-				target_type: params[:target_type]).first_or_initialize
-		end	
-		favourite.toggle
-		
-		render :json => favourite, root: 'favourite'
-	end
+		def show
+			@favourite = Favourite.find_with_target(@user, params[:target_id],
+				params[:target_type], params[:third_party_flag])
 
-	private 
+			respond_with @favourite
+		end
 
-	def authenticate!
-		#fix before commiting
-	  method(FavouriteObject.authentication_method).call
-	  @user = method(FavouriteObject.current_user_method).call
+		def update
+			@favourite = Favourite.find_with_target(@user, params[:target_id],
+				params[:target_type], params[:third_party_flag])
+
+			@favourite.update(permitted_params[:favourite])
+
+			respond_with @favourite
+		end
+
+		def toggle
+			# toggle for web interface
+			@favourite = Favourite.find_with_target(@user, params[:target_id],
+				params[:target_type], params[:third_party_flag])
+
+			@favourite.toggle
+
+			respond_with @favourite
+		end
+
+		def meta
+		  if action_name == 'index'
+		  	{
+		  		pagination: {
+		  			per_page: @favourites.limit_value,
+		  			total_pages: @favourites.total_pages,
+		  			total_objects: @favourites.total_count
+		  		}
+		  	}
+		  end
+		end
+
+		private
+
+		def permitted_params
+		  params.permit(favourite: [
+		  	:is_favourited,
+		  	:target_id,
+		  	:target_type,
+		  	:third_party_flag,
+		  	:third_party_id,
+		  	:third_party_type,
+		  	:params
+		  ])
+		end
+
+		def authenticate!
+		  method(FavouriteObject.authentication_method).call
+		  @user = method(FavouriteObject.current_user_method).call
+		end
 	end
 end

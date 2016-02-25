@@ -31,23 +31,18 @@ class FavouriteObject::InstallGenerator < Rails::Generators::Base
   # This is defined in ActiveRecord::Generators::Base, but that inherits from NamedBase, so it expects a name argument
   # which we don't want here. So we redefine it here. Yuck.
   def self.next_migration_number(dirname)
-    if ActiveRecord::Base.timestamped_migrations
-      Time.now.utc.strftime("%Y%m%d%H%M%S%L")
-    else
-      "%.3d" % (current_migration_number(dirname) + 1)
-    end
+    next_migration_number = current_migration_number(dirname) + 1
+    ActiveRecord::Migration.next_migration_number(next_migration_number)
   end
-
-
 
   protected
 
-    def copy_migration(filename)
-      if self.class.migration_exists?("db/migrate", "#{filename}")
-        say_status("skipped", "Migration #{filename}.rb already exists")
-      else
-        migration_template "#{filename}.rb", "db/migrate/#{filename}.rb"
-      end
+  def copy_migration(filename)
+    if self.class.migration_exists?("db/migrate", "#{filename}")
+      say_status("skipped", "Migration #{filename}.rb already exists")
+    else
+      migration_template "#{filename}.rb", "db/migrate/#{filename}.rb"
     end
+  end
 
 end
