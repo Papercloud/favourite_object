@@ -1,4 +1,6 @@
 class FavouriteObject::LiteFavouriteSerializer < ActiveModel::Serializer
+  root :favourite
+
   attributes :id, :target_id, :target_type, :is_favourited, :third_party_flag
 
   def target_id

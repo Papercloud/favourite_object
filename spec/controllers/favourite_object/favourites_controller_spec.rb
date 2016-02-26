@@ -15,26 +15,26 @@ module FavouriteObject
 
     describe 'GET show' do
       it "returns 200" do
-        get :show, target_type: arbitrary_object.class.name, target_id: arbitrary_object.id, format: :json
+        get :show, target_type: arbitrary_object.class.name, target_id: arbitrary_object.id, format: :json, use_route: :favourite_object
         expect(response.response_code).to eq 200
       end
 
       it "returns favourite status" do
         favourite.update(is_favourited: true)
 
-        get :show, target_type: arbitrary_object.class.name, target_id: arbitrary_object.id, format: :json
+        get :show, target_type: arbitrary_object.class.name, target_id: arbitrary_object.id, format: :json, use_route: :favourite_object
         expect(json[:favourite][:is_favourited]).to eq true
       end
     end
 
     describe "PUT update" do
       it "favouriting object returns is_favourite true" do
-        put :update, target_type: arbitrary_object.class.name, target_id: arbitrary_object.id, favourite: {is_favourited: true}, format: :json
+        put :update, target_type: arbitrary_object.class.name, target_id: arbitrary_object.id, favourite: {is_favourited: true}, format: :json, use_route: :favourite_object
         expect(json[:favourite][:is_favourited]).to eq true
       end
 
       it "unfavouriting object returns is_favourite false" do
-        put :update, target_type: arbitrary_object.class.name, target_id: arbitrary_object.id, favourite: {is_favourited: false}, format: :json
+        put :update, target_type: arbitrary_object.class.name, target_id: arbitrary_object.id, favourite: {is_favourited: false}, format: :json, use_route: :favourite_object
         expect(json[:favourite][:is_favourited]).to eq false
       end
     end
@@ -42,7 +42,7 @@ module FavouriteObject
     ## Index is used to display a list view of favourites
     describe "GET index" do
       it "returns 200" do
-        get :index, format: :json
+        get :index, format: :json, use_route: :favourite_object
         expect(response.response_code).to eq 200
       end
 
@@ -50,7 +50,7 @@ module FavouriteObject
       it "returns lite payload" do
         favourite.update(is_favourited: true)
 
-        get :index, format: :json, serializer: 'lite'
+        get :index, format: :json, use_route: :favourite_object, serializer: 'lite'
         expect(json[:favourites][0][:description]).to be_nil
       end
 
@@ -58,7 +58,7 @@ module FavouriteObject
         favourite.update(is_favourited: true)
         Favourite.create(owner: user, target_type: 'FakeObject', target_id: 5, is_favourited: true)
 
-        get :index, format: :json, target_type: 'FakeObject'
+        get :index, format: :json, use_route: :favourite_object, target_type: 'FakeObject'
         expect(json[:favourites].count).to eq 1
       end
 
@@ -66,7 +66,7 @@ module FavouriteObject
         favourite.update(is_favourited: true)
         Favourite.create(owner: user, target_type: 'FakeObject', target_id: 5, is_favourited: true)
 
-        get :index, format: :json, target_type: 'FakeObject', target_ids: [5]
+        get :index, format: :json, use_route: :favourite_object, target_type: 'FakeObject', target_ids: [5]
         expect(json[:favourites].count).to eq 1
       end
 
@@ -74,7 +74,7 @@ module FavouriteObject
         favourite.update(is_favourited: true)
         Favourite.create(owner: user, target_type: 'FakeObject', target_id: 5, is_favourited: true)
 
-        get :index, format: :json, target_type: 'FakeObject', target_ids: [6]
+        get :index, format: :json, use_route: :favourite_object, target_type: 'FakeObject', target_ids: [6]
         expect(json[:favourites].count).to eq 0
       end
     end
