@@ -1,9 +1,7 @@
 class FavouriteObject::FavouriteSerializer < ActiveModel::Serializer
-  root :favourites
-
   attributes :id, :target_id, :target_type, :is_favourited, :description, :third_party_flag, :data
   embed :ids, :include => true
-  has_one :target, polymorphic: true
+  # has_one :target, polymorphic: true
 
   def include_target?
     (self.object.third_party_flag != true)
@@ -14,7 +12,7 @@ class FavouriteObject::FavouriteSerializer < ActiveModel::Serializer
   		self.object.params[:description]
   	else
   		self.object.message
-  	end 
+  	end
   end
 
   def data
@@ -22,7 +20,7 @@ class FavouriteObject::FavouriteSerializer < ActiveModel::Serializer
   		self.object.params
   	else
   		[]
-  	end 
+  	end
   end
 
   def target_id
