@@ -3,7 +3,7 @@ favourite_object
 A dropin utility that adds favourites functionality to any rails application. But simpling include a partial you can add a favourite button to any object.
 
 
-Install: 
+Install:
 ```
 gem 'favourite_object'
 rails g favourite_object:install
@@ -24,14 +24,14 @@ rails g favourite_object:template ObjectName
 
 Favourite button(pass the object to be favourited and the user object)
 ```
-<%= render :partial => 'favourite_object/favourites/favourite_icon', 
+<%= render :partial => 'favourite_object/favourites/favourite_icon',
 	:locals => {:object => object}%>
 ```
 
 ###Api Documentation:
-Route: `GET: /favourite_object/:target_type/:target_id.json`
+Route: `GET: /favourite_object/favourites/:target_type/:target_id.json`
 
-Example response: 
+Example response:
 ```json
 {
     "favourite" => {
@@ -50,7 +50,7 @@ Optional params: `{target_type: Class, target_ids: [1, 5, 10], serializer: 'lite
 
 - *Note*: `serializer: 'lite'` returns a skinny serializer which doesn't include a description and params
 
-Example response: 
+Example response:
 ```json
 {
     "favourites" => [
@@ -67,11 +67,11 @@ Example response:
 }
 ```
 
-Route: `PUT: /favourite_object/:target_type/:target_id.json`
+Route: `PUT: /favourite_object/favourites/:target_type/:target_id.json`
 
 Params: `{favourite: {is_favourited: true | false}}`
 
-Example response: 
+Example response:
 ```json
 {
     "favourite" => {
